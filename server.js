@@ -1,3 +1,4 @@
+const exp = require("constants");
 const express = require("express");
 const mysql = require("mysql2");
 const app = express();
@@ -6,8 +7,8 @@ const PORT = 3000;
 //defining parameters to create a connection with the mysql db
 const db = mysql.createConnection({
   host: "localhost",
-  user: "yourdbusername",
-  password: "yourdbpassword",
+  user: "yourusername",
+  password: "yourpassword",
   database: "userdb",
 });
 
@@ -34,6 +35,19 @@ db.query(createTable, (err) => {
     throw err;
   }
   console.log("Table created in the database");
+});
+
+app.use(express.json());
+
+//API to get the list of users from the database
+app.get("/users", (req, res) => {
+  const sql = "SELECT * FROM USERS";
+  db.query(sql, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.json(results);
+  });
 });
 
 //Listening to the application on the specified port
