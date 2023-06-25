@@ -50,5 +50,16 @@ app.get("/users", (req, res) => {
   });
 });
 
+//API to get the user details using id parameter from the database
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM USERS WHERE ID=?";
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      throw err;
+    } else res.json(results);
+  });
+});
+
 //Listening to the application on the specified port
 app.listen(PORT);
