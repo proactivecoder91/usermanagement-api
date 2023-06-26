@@ -61,5 +61,18 @@ app.get("/users/:id", (req, res) => {
   });
 });
 
+//API to insert a user record in the database
+app.post("/users/add", (req, res) => {
+  const { name, email, age, city } = req.body;
+  const sql = "INSERT INTO USERS(NAME , EMAIL , AGE , CITY) VALUES(?,?,?,?)";
+  db.query(sql, [name, email, age, city], (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      res.json({ message: "Users record inserted successfully" });
+    }
+  });
+});
+
 //Listening to the application on the specified port
 app.listen(PORT);
