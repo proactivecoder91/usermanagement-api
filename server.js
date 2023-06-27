@@ -74,5 +74,20 @@ app.post("/users/add", (req, res) => {
   });
 });
 
+//API to update user information in the database
+app.put("/users/edit/:id", (req, res) => {
+  const id = req.params.id;
+  const { name, email, age, city } = req.body;
+  const sql =
+    "UPDATE USERS SET NAME=? , EMAIL = ? , AGE = ? , CITY = ? WHERE ID = ?";
+  db.query(sql, [name, email, age, city, id], (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      res.json({ message: "User record edited" });
+    }
+  });
+});
+
 //Listening to the application on the specified port
 app.listen(PORT);
