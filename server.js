@@ -89,5 +89,19 @@ app.put("/users/edit/:id", (req, res) => {
   });
 });
 
+//API to delete user information in the database
+//This is not a soft delete
+app.delete("/users/delete/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM USERS WHERE ID = ?";
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      res.json({ message: "User record deleted" });
+    }
+  });
+});
+
 //Listening to the application on the specified port
 app.listen(PORT);
